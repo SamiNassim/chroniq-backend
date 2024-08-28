@@ -1,0 +1,4 @@
+export const jwtConstants = {
+  ACCESS_TOKEN_EXPIRESIN: 60,
+  REFRESH_TOKEN_EXPIRESIN: 604800,
+};
