@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryColumn,
   PrimaryGeneratedColumn,
   Unique,
@@ -11,6 +12,7 @@ import {
 
 import { Role } from 'src/auth/enums/role.enum';
 import { createId } from '@paralleldrive/cuid2';
+import { Story } from './story.entity';
 
 @Entity()
 @Unique(['email', 'username'])
@@ -39,6 +41,9 @@ export class User extends BaseEntity {
 
   @Column({ nullable: true })
   hashedRefreshToken: string;
+
+  @OneToMany(() => Story, (story) => story.user)
+  stories: Story[];
 
   @CreateDateColumn()
   createdAt: Date;
