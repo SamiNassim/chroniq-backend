@@ -22,9 +22,6 @@ export class Chapter extends BaseEntity {
   @Column()
   title: string;
 
-  @Column({ nullable: true })
-  storyCover: string;
-
   @ManyToOne(() => Story, (story) => story.chapters)
   story: Story;
 
