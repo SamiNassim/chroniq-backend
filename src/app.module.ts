@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './user/user.module';
+import { UserModule } from './user/user.module';
 import { User } from './entities/user.entity';
 import { Story } from './entities/story.entity';
 import { Chapter } from './entities/chapter.entity';
@@ -26,10 +26,10 @@ import { StoryModule } from './story/story.module';
       synchronize: true,
     }),
     AuthModule,
-    UsersModule,
+    UserModule,
     StoryModule,
   ],
-  controllers: [AppController, StoryController],
-  providers: [AppService, StoryService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
