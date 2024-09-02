@@ -12,6 +12,9 @@ import {
 } from 'typeorm';
 import { User } from './user.entity';
 import { Chapter } from './chapter.entity';
+import { Max, Min } from 'class-validator';
+import { Rating } from './rating.entity';
+import { Genre } from 'src/story/enums/genre.enum';
 
 @Entity()
 export class Story extends BaseEntity {
@@ -27,12 +30,33 @@ export class Story extends BaseEntity {
   @Column({ nullable: true })
   storyCover: string;
 
+  @Column({
+    type: 'enum',
+    enum: Genre,
+    default: null,
+  })
+  role: Genre;
+
+  @Column({ default: null })
+  @Min(1)
+  @Max(5)
+  averageRating: number;
+
+  @Column({ default: false })
+  isPublished: boolean;
+
+  @Column({ default: false })
+  isDeleted: boolean;
+
   @ManyToOne(() => User, (user) => user.stories)
   @JoinColumn({ name: 'userId' })
   user: User;
 
   @OneToMany(() => Chapter, (chapter) => chapter.story)
-  chapters: Chapter;
+  chapters: Chapter[];
+
+  @OneToMany(() => Rating, (rating) => rating.story)
+  ratings: Rating[];
 
   @CreateDateColumn()
   createdAt: Date;
