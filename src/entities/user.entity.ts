@@ -12,6 +12,7 @@ import {
 import { Role } from 'src/auth/enums/role.enum';
 import { createId } from '@paralleldrive/cuid2';
 import { Story } from './story.entity';
+import { Comment } from './comment.entity';
 
 @Entity()
 @Unique(['email', 'username'])
@@ -43,6 +44,9 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Story, (story) => story.user)
   stories: Story[];
+
+  @OneToMany(() => Comment, (comments) => comments.user)
+  comments: Comment[];
 
   @CreateDateColumn()
   createdAt: Date;

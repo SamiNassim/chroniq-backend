@@ -15,6 +15,7 @@ import { Chapter } from './chapter.entity';
 import { Max, Min } from 'class-validator';
 import { Rating } from './rating.entity';
 import { Genre } from 'src/story/enums/genre.enum';
+import { Comment } from './comment.entity';
 
 @Entity()
 export class Story extends BaseEntity {
@@ -35,7 +36,7 @@ export class Story extends BaseEntity {
     enum: Genre,
     default: null,
   })
-  role: Genre;
+  genre: Genre;
 
   @Column({ default: null })
   @Min(1)
@@ -48,12 +49,15 @@ export class Story extends BaseEntity {
   @Column({ default: false })
   isDeleted: boolean;
 
-  @ManyToOne(() => User, (user) => user.stories)
+  @ManyToOne(() => User, (user) => user.stories, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
   user: User;
 
   @OneToMany(() => Chapter, (chapter) => chapter.story)
   chapters: Chapter[];
+
+  @OneToMany(() => Comment, (comments) => comments.story)
+  comments: Comment[];
 
   @OneToMany(() => Rating, (rating) => rating.story)
   ratings: Rating[];

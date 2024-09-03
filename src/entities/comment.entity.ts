@@ -5,32 +5,31 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
-  OneToMany,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Chapter } from './chapter.entity';
+import { User } from './user.entity';
 import { Story } from './story.entity';
-import { Comment } from './comment.entity';
 
 @Entity()
-export class Chapter extends BaseEntity {
+export class Comment extends BaseEntity {
   @PrimaryColumn()
   id: string;
-
-  @Column()
-  number: number;
 
   @Column({ type: 'text' })
   content: string;
 
-  @Column()
-  title: string;
+  @ManyToOne(() => Chapter, (chapter) => chapter.comments, {
+    onDelete: 'CASCADE',
+  })
+  chapter: Chapter;
 
-  @ManyToOne(() => Story, (story) => story.chapters, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Story, (story) => story.comments, { onDelete: 'CASCADE' })
   story: Story;
 
-  @OneToMany(() => Comment, (comments) => comments.chapter)
-  comments: Comment[];
+  @ManyToOne(() => User, (user) => user.comments, { onDelete: 'CASCADE' })
+  user: User;
 
   @CreateDateColumn()
   createdAt: Date;

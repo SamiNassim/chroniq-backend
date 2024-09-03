@@ -9,28 +9,22 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Chapter } from './chapter.entity';
+import { Max, Min } from 'class-validator';
 import { Story } from './story.entity';
-import { Comment } from './comment.entity';
 
 @Entity()
-export class Chapter extends BaseEntity {
+export class Rating extends BaseEntity {
   @PrimaryColumn()
   id: string;
 
-  @Column()
-  number: number;
+  @Column({ default: null })
+  @Min(1)
+  @Max(5)
+  averageRating: number;
 
-  @Column({ type: 'text' })
-  content: string;
-
-  @Column()
-  title: string;
-
-  @ManyToOne(() => Story, (story) => story.chapters, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Story, (story) => story.ratings, { onDelete: 'CASCADE' })
   story: Story;
-
-  @OneToMany(() => Comment, (comments) => comments.chapter)
-  comments: Comment[];
 
   @CreateDateColumn()
   createdAt: Date;
