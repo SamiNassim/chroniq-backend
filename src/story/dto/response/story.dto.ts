@@ -16,9 +16,7 @@ export class StoryResponse {
   @IsOptional()
   storyCover: string;
 
-  @Min(1)
-  @Max(5)
-  averageRating: number;
+  likesCounter: number;
 
   isPublished: boolean;
 

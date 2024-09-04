@@ -13,7 +13,7 @@ import {
 import { User } from './user.entity';
 import { Chapter } from './chapter.entity';
 import { Max, Min } from 'class-validator';
-import { Rating } from './rating.entity';
+import { Like } from './like.entity';
 import { Genre } from 'src/story/enums/genre.enum';
 import { Comment } from './comment.entity';
 
@@ -38,10 +38,8 @@ export class Story extends BaseEntity {
   })
   genre: Genre;
 
-  @Column({ default: null })
-  @Min(1)
-  @Max(5)
-  averageRating: number;
+  @Column({ default: 0 })
+  likesCounter: number;
 
   @Column({ default: false })
   isPublished: boolean;
@@ -59,8 +57,8 @@ export class Story extends BaseEntity {
   @OneToMany(() => Comment, (comments) => comments.story)
   comments: Comment[];
 
-  @OneToMany(() => Rating, (rating) => rating.story)
-  ratings: Rating[];
+  @OneToMany(() => Like, (likes) => likes.story)
+  likes: Like[];
 
   @CreateDateColumn()
   createdAt: Date;

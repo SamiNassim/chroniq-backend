@@ -8,9 +8,10 @@ import { UserModule } from './user/user.module';
 import { User } from './entities/user.entity';
 import { Story } from './entities/story.entity';
 import { Chapter } from './entities/chapter.entity';
-import { StoryController } from './story/story.controller';
-import { StoryService } from './story/story.service';
 import { StoryModule } from './story/story.module';
+import { ChapterModule } from './chapter/chapter.module';
+import { Comment } from './entities/comment.entity';
+import { Like } from './entities/like.entity';
 
 @Module({
   imports: [
@@ -22,12 +23,13 @@ import { StoryModule } from './story/story.module';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: 'postgres',
-      entities: [User, Story, Chapter],
+      entities: [User, Story, Like, Chapter, Comment],
       synchronize: true,
     }),
     AuthModule,
     UserModule,
     StoryModule,
+    ChapterModule,
   ],
   controllers: [AppController],
   providers: [AppService],

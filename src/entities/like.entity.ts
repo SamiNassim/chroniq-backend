@@ -1,30 +1,30 @@
 import { createId } from '@paralleldrive/cuid2';
 import {
   BaseEntity,
-  Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
-  OneToMany,
   PrimaryColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
-import { Chapter } from './chapter.entity';
-import { Max, Min } from 'class-validator';
 import { Story } from './story.entity';
+import { User } from './user.entity';
 
 @Entity()
-export class Rating extends BaseEntity {
+@Unique(['user', 'story'])
+export class Like extends BaseEntity {
   @PrimaryColumn()
   id: string;
 
-  @Column({ default: null })
-  @Min(1)
-  @Max(5)
-  averageRating: number;
-
-  @ManyToOne(() => Story, (story) => story.ratings, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Story, (story) => story.likes, { onDelete: 'CASCADE' })
+  @Index()
   story: Story;
+
+  @ManyToOne(() => User, (user) => user.likes, { onDelete: 'CASCADE' })
+  @Index()
+  user: User;
 
   @CreateDateColumn()
   createdAt: Date;
