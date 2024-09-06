@@ -5,18 +5,16 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Story } from 'src/entities/story.entity';
-import { User } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 import { ChapterRequest } from './dto/request/create-chapter.dto';
 import { Chapter } from 'src/entities/chapter.entity';
+import { UpdateChapterRequest } from './dto/request/update-chapter.dto';
 
 @Injectable()
 export class ChapterService {
   constructor(
     @InjectRepository(Story)
     private storyRepository: Repository<Story>,
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
     @InjectRepository(Chapter)
     private chapterRepository: Repository<Chapter>,
   ) {}
@@ -41,5 +39,44 @@ export class ChapterService {
     await this.storyRepository.save(selectedStory);
 
     return await this.chapterRepository.save(newChapter);
+  }
+
+  async get(chapterId: string) {
+    return await this.chapterRepository.findOne({
+      where: { id: chapterId },
+      relations: ['story.user'],
+    });
+  }
+
+  async update(dto: UpdateChapterRequest, chapterId: string, userId: string) {
+    const chapterToUpdate = await this.chapterRepository.findOne({
+      where: { id: chapterId },
+      relations: ['story.user'],
+    });
+    if (!chapterToUpdate) {
+      throw new NotFoundException('Chapter not found!');
+    }
+    if (chapterToUpdate.story.user.id !== userId) {
+      throw new UnauthorizedException("You can't update this chapter!");
+    }
+
+    Object.assign(chapterToUpdate, dto);
+
+    return await this.storyRepository.save(chapterToUpdate);
+  }
+
+  async delete(chapterId: string, userId: string) {
+    const selectedChapter = await this.chapterRepository.findOne({
+      where: { id: chapterId },
+      relations: ['story.user'],
+    });
+    if (!selectedChapter) {
+      throw new NotFoundException('Chapter not found!');
+    }
+    if (selectedChapter.story.user.id !== userId) {
+      throw new UnauthorizedException("You can't delete this chapter!");
+    }
+
+    return await this.chapterRepository.delete(chapterId);
   }
 }
