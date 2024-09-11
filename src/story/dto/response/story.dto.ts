@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, Max, Min } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 
 export class StoryResponse {
   @IsNotEmpty()

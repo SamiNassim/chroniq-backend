@@ -12,6 +12,7 @@ import { StoryModule } from './story/story.module';
 import { ChapterModule } from './chapter/chapter.module';
 import { Comment } from './entities/comment.entity';
 import { Like } from './entities/like.entity';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { Like } from './entities/like.entity';
     UserModule,
     StoryModule,
     ChapterModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

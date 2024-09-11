@@ -7,6 +7,6 @@ export class ChapterResponse {
   number: number;
   @IsNotEmpty()
   title: string;
-
+  @IsNotEmpty()
   content: string;
 }
