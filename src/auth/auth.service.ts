@@ -51,7 +51,14 @@ export class AuthService {
   async login(
     email: string,
     password: string,
-  ): Promise<{ access_token: string; refresh_token: string }> {
+  ): Promise<{
+    userId: string;
+    email: string;
+    username: string;
+    avatarUrl: string;
+    access_token: string;
+    refresh_token: string;
+  }> {
     const user = await this.userService.findByEmail(email);
     if (!user) {
       throw new NotFoundException('User not found!');
@@ -71,7 +78,14 @@ export class AuthService {
       hashedRefreshToken,
     );
 
-    return { access_token, refresh_token };
+    return {
+      userId: user.id,
+      email: user.email,
+      username: user.username,
+      avatarUrl: user.avatarUrl,
+      access_token,
+      refresh_token,
+    };
   }
 
   async generateTokens(userId: string) {
