@@ -17,9 +17,6 @@ export class Chapter extends BaseEntity {
   @PrimaryColumn()
   id: string;
 
-  @Column()
-  number: number;
-
   @Column({ type: 'text' })
   content: string;
 
