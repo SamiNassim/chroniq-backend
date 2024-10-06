@@ -4,7 +4,6 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { ConfigService } from '@nestjs/config';
@@ -13,6 +12,7 @@ import { Repository } from 'typeorm';
 import { User } from 'src/entities/user.entity';
 import * as argon2 from 'argon2';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class AuthService {

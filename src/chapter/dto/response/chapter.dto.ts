@@ -7,4 +7,6 @@ export class ChapterResponse {
   title: string;
   @IsNotEmpty()
   content: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
